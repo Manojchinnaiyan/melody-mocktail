@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import HeaderLogo from "../src/images/Rectangle 3.png";
+import "./App.css";
+import Forms from "./components/Forms";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <img
+        style={{ width: "100%", height: "400px" }}
+        src={HeaderLogo}
+        alt="Header Logo"
+      />
+      <h1 style={{ textAlign: "center" }}>TRAVEL PLANNER</h1>
+      <Forms />
     </div>
   );
 }

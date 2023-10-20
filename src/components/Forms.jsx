@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import html2pdf from "html2pdf.js";
 import logo from "../images/logo.svg";
+import Select,{StylesConfig} from "react-select";
 import {
   ActionButton,
   Button,
@@ -26,10 +27,11 @@ import {
   ResponseContainer,
   ResponseText,
   ResponseTitle,
-  Select,
+  Select as NormalSelect,
   Subtitle,
   Title,
   TopLocationContainer,
+  FormBlockGroup,
 } from "../styles/styleComponents";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
@@ -68,6 +70,12 @@ const ResponseData = ({ response }) => {
         >
           Download
         </ActionButton>
+        {/* <ActionButton onClick={window.location.reload()}>Generate New Plan</ActionButton> */}
+      </ButtonContainer>
+      <ButtonContainer>
+        <ActionButton onClick={()=> window.location.reload()} >
+          Generate New Itinerary
+        </ActionButton>
       </ButtonContainer>
       <ResponseText>
         <div id="pdf-container">
@@ -93,14 +101,14 @@ const GenerateButton = ({ loading, onClick }) => (
 
 const options = {
   travelStyles: [
-    "Cultural",
-    "Adventure",
-    "Relaxation",
-    "Beach",
-    "City Break",
-    "Road Trip",
-    "Wildlife Safari",
-    "Ski",
+    { value: "Cultural", label: "Cultural" },
+    { value: "Adventure", label: "Adventure" },
+    { value: "Relaxation", label: "Relaxation" },
+    { value: "Beach", label: "Beach" },
+    { value: "City Break", label: "City Break" },
+    { value: "Road Trip", label: "Road Trip" },
+    { value: "Wildlife Safari", label: "Wildlife Safari" },
+    { value: "Ski", label: "Ski" },
   ],
   interestsNew: [
     { name: "History", emoji: "🏛️" },
@@ -127,24 +135,31 @@ const options = {
   ],
 
   accommodationTypes: [
-    "Hotel",
-    "Boutique Hotel",
-    "Hostel",
-    "Resort",
-    "Vacation Rental",
-    "Camping",
-    "Homestay",
-    "Bed and Breakfast",
+   {value: 'Hotel', label: 'Hotel'}, 
+   {value: 'Boutique Hotel', label: 'Boutique Hotel'},
+    {value: 'Hostel', label: 'Hostel'},
+     {value: 'Resort', label: 'Resort'}, 
+     {value: 'Vacation Rental', label: 'Vacation Rental'},
+      {value: 'Camping', label: 'Camping'},
+       {value: 'Homestay', label: 'Homestay'},
+        {value: 'Bed and Breakfast', label: 'Bed and Breakfast'}
   ],
   activityTypes: [
-    "Outdoor",
-    "Sightseeing",
-    "Shopping",
-    "Nightlife",
-    "Museums",
-    "Theme Parks",
-    "Water Sports",
-    "Yoga and Wellness",
+{ value: 'Outdoor', label: 'Outdoor' },
+{ value: 'Sightseeing', label: 'Sightseeing' },
+{ value: 'Shopping', label: 'Shopping' },
+{ value: 'Nightlife', label: 'Nightlife' },
+{ value: 'Museums', label: 'Museums' },
+{ value: 'Theme Parks', label: 'Theme Parks' },
+{ value: 'Water Sports', label: 'Water Sports' },
+{ value: 'Yoga and Wellness', label: 'Yoga and Wellness' },
+  ],
+
+  travelParties:[
+    { value: 'SINGLE', label: 'SINGLE' },
+{ value: 'COUPLE', label: 'COUPLE' },
+{ value: 'FRIENDS', label: 'FRIENDS' },
+{ value: 'FAMILY', label: 'FAMILY' }
   ],
   cuisineTypes: [
     { name: "Traditional", emoji: "😋" },
@@ -160,6 +175,33 @@ const options = {
     { name: "Spanish", emoji: "🥘" },
     { name: "Greek", emoji: "🍗" },
     { name: "Chinese", emoji: "🥡" },
+  ],
+transportatioinTypes:[
+  { value: 'BIKE', label: 'BIKE' },
+{ value: 'BUS', label: 'BUS' },
+{ value: 'CAR', label: 'CAR' },
+{ value: 'FLIGHT', label: 'FLIGHT' }
+],
+  currencies: [
+{ value: 'AUD', label: 'AUD' },
+{ value: 'BRL', label: 'BRL' },
+{ value: 'CAD', label: 'CAD' },
+{ value: 'CHF', label: 'CHF' },
+{ value: 'CNY', label: 'CNY' },
+{ value: 'EUR', label: 'EUR' },
+{ value: 'GBP', label: 'GBP' },
+{ value: 'HKD', label: 'HKD' },
+{ value: 'INR', label: 'INR' },
+{ value: 'JPY', label: 'JPY' },
+{ value: 'KRW', label: 'KRW' },
+{ value: 'MXN', label: 'MXN' },
+{ value: 'NZD', label: 'NZD' },
+{ value: 'RUB', label: 'RUB' },
+{ value: 'SEK', label: 'SEK' },
+{ value: 'SGD', label: 'SGD' },
+{ value: 'USD', label: 'USD' },
+{ value: 'ZAR', label: 'ZAR' }
+
   ],
 
   languages: [
@@ -183,16 +225,21 @@ const topLocations = [
 ];
 
 const defaultValues = {
+  fromCountry: "",
   destinationCountry: "",
-  budget: "250 USD",
-  travelStyle: options.travelStyles[0],
+  budget: "",
+  travelStyle: "",
   interestsNew: [],
-  accommodationType: options.accommodationTypes[0],
+  accommodationType: "",
   transportationType: "Bus",
-  activityType: [options.activityTypes[0]],
+  activityType: "",
   cuisineType: options.cuisineTypes[0],
   tripDuration: "3",
   language: options.languages[0].value,
+  travelParties:"",
+  fromDate:"",
+  toDate:"",
+  currency:""
 };
 
 const Forms = () => {
@@ -204,6 +251,15 @@ const Forms = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(
     options.languages[0]
   );
+
+  const retreiveValues = (arr) =>{
+    if(arr.length > 0){
+      const a = []
+      arr.forEach((b) => a.push(b.value))
+      return a.join(',')
+    }
+    return ""
+  }
 
   const handleCuisineTypeClick = (cuisineType) => {
     if (selectedCuisineTypes.includes(cuisineType)) {
@@ -284,12 +340,54 @@ const Forms = () => {
     }));
   };
 
+  const handleChangeCurrencies = (value)=>{
+  setValues((prevState)=>({
+      ...prevState,
+      "currency":value
+    }))
+  }
+
+  const handleChangeMultiTravelStyles = (value)=>{
+    setValues((prevState)=>({
+      ...prevState,
+      "travelStyle":value
+    }))
+  }
+
+  const handlesMultiSelectChangeAccomodation = (value ) =>{
+    setValues((prevState) => ({
+      ...prevState,
+      "accommodationType":value
+    }))
+  }
+
+  const handleChangeTransportTypes = (value)=>[
+    setValues((prevState)=>({
+      ...prevState,
+      "transportationType":value
+    }))
+  ]
+
+  const handleChangeMultiActivity = (value)=>{
+    setValues((prevState)=>({
+      ...prevState,
+      "activityType":value
+    }))
+  }
+
   const handleLocationClick = (location) => {
     setValues((prevState) => ({
       ...prevState,
       destinationCountry: location.name,
     }));
   };
+
+  const handleChangeTravelParties = (value)=>{
+    setValues((prevState)=>({
+      ...prevState,
+      "travelParties":value
+    }))
+  }
 
   const handleMultiSelectChange = (e) => {
     const { name, options } = e.target;
@@ -317,8 +415,10 @@ const Forms = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    let prompt = `Generate a personalized travel itinerary for a trip to ${values.destinationCountry} with a budget of ${values.budget}. The traveler is interested in a ${values.travelStyle} vacation and enjoys ${values.interestsNew}. They are looking for ${values.accommodationType} accommodations and prefer ${values.transportationType} transportation. The itinerary should include ${values.activityType} activities and ${values.cuisineType} dining options. Please provide a detailed itinerary with daily recommendations for ${values.tripDuration} days, including suggested destinations, activities, and dining options. The itinerary should be written in ${values.language}. `;
-
+    let prompt = `Generate a personalized travel itinerary for a trip to ${values.destinationCountry} with a budget of ${values.budget}${values.currency.value}. The traveler is interested in a ${retreiveValues(values.travelStyle)} vacation and enjoys ${values.interestsNew}. They are looking for ${retreiveValues(values.accommodationType)} accommodations and prefer ${retreiveValues(values.transportationType)} transportation. The itinerary should include ${retreiveValues(values.activityType)} activities and ${values.cuisineType} dining options.The traveler parties are ${retreiveValues(values.travelParties)}. Please provide a detailed itinerary with daily recommendations for ${values.tripDuration} days, including suggested destinations, activities, and dining options. The itinerary should be written in ${values.language}.`
+    if(values.fromCountry !== ""){
+       prompt = `Generate a personalized travel itinerary for a trip from ${values.fromCountry} to ${values.destinationCountry} with a budget of ${values.budget}${values.currency.value}. The traveler is interested in a ${retreiveValues(values.travelStyle)} vacation and enjoys ${values.interestsNew}. They are looking for ${retreiveValues(values.accommodationType)} accommodations and prefer ${retreiveValues(values.transportationType)} transportation. The itinerary should include ${retreiveValues(values.activityType)} activities and ${values.cuisineType} dining options.The traveler parties are ${retreiveValues(values.travelParties)}. Please provide a detailed itinerary with daily recommendations for ${values.tripDuration} days, including suggested destinations, activities, and dining options. The itinerary should be written in ${values.language}.`
+    }
     fetch("https://c4-na.altogic.com/e:6475be0dabbc561653803b17/travel", {
       method: "POST",
       headers: {
@@ -358,6 +458,9 @@ const Forms = () => {
   const handleLeadChange = (event) => {
     setEmail(event.target.value);
   };
+
+  const colourStyles: StylesConfig = {
+  control: (styles) => ({ ...styles,borderRadius:"10px",margin:"5px",flex:1 }),}
   return (
     <Panel>
       {response ? (
@@ -366,6 +469,15 @@ const Forms = () => {
         </ResponseContainer>
       ) : (
         <FormContainer onSubmit={handleSubmit}>
+          <Label htmlFor="fromCountry">From Country(Optional)</Label>
+          <Input
+            type="text"
+            placeholder="e.g. San Francisco/USA, Paris/France, Istanbul/Turkey, etc."
+            id="fromCountry"
+            name="fromCountry"
+            value={values.fromCountry}
+            onChange={handleChange}
+          />
           <Label htmlFor="destinationCountry">Destination Country</Label>
           <Input
             type="text"
@@ -388,7 +500,7 @@ const Forms = () => {
             ))}
           </TopLocationContainer>
           <FormRow>
-            <FormGroup>
+            <FormBlockGroup>
               <Label htmlFor="budget">
                 Budget
                 <p
@@ -401,7 +513,9 @@ const Forms = () => {
                   (with currency)
                 </p>
               </Label>
+              <div style={{display:"flex"}}>
               <Input
+                style={{marginTop:"5px",flex:1}}
                 type="text"
                 placeholder="e.g. $1000 USD, 1000 EUR, etc."
                 id="budget"
@@ -409,11 +523,19 @@ const Forms = () => {
                 value={values.budget}
                 onChange={handleChange}
                 required
+              /><Select
+                id="currencies"
+                name="currencies"
+                options={options.currencies}
+                onChange={handleChangeCurrencies}
+                styles={colourStyles}
               />
-            </FormGroup>
+              </div>
+            </FormBlockGroup>
             <FormGroup>
+              <FormBlockGroup style={{flex:1,marginLeft:"10px"}}>
               <Label htmlFor="tripDuration">
-                Trip Duration
+                From Date
                 <p
                   style={{
                     display: "inline-block",
@@ -421,17 +543,46 @@ const Forms = () => {
                     fontSize: "16px",
                   }}
                 >
-                  (in days)
                 </p>
               </Label>
               <Input
-                type="number"
-                id="tripDuration"
-                name="tripDuration"
-                value={values.tripDuration}
+              placeholder="DD/MM/YYYY"
+               style={{marginTop:"10px"}}
+                type="text"
+                id="fromDate"
+                name="fromDate"
+                onFocus={(e) => (e.target.type = "date")}
+               onBlur={(e) => (e.target.type = "text")}
+                value={values.fromDate}
                 onChange={handleChange}
                 required
               />
+              </FormBlockGroup>
+              <FormBlockGroup style={{flex:1}}>
+                <Label htmlFor="tripDuration">
+                To Date
+                <p
+                  style={{
+                    display: "inline-block",
+                    color: "#666",
+                    fontSize: "16px",
+                  }}
+                >
+                </p>
+              </Label>
+              <Input
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => (e.target.type = "text")}
+              placeholder="DD/MM/YYYY"
+               style={{marginTop:"10px"}}
+                type="text"
+                id="toDate"
+                name="toDate"
+                value={values.toDate}
+                onChange={handleChange}
+                required
+              />
+              </FormBlockGroup>
             </FormGroup>
           </FormRow>
           <Label htmlFor="interests">Interests</Label>
@@ -456,41 +607,32 @@ const Forms = () => {
           </InterestsContainerNew>
 
           <FormRow>
-            <FormGroup>
+            <FormBlockGroup>
               <Label htmlFor="accommodationType">Accommodation</Label>
-              <Select
-                id="accommodationType"
-                name="accommodationType"
-                value={values.accommodationType}
-                onChange={handleChange}
-                style={{ height: "50px" }}
-              >
-                {options.accommodationTypes.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </FormGroup>
-            <FormGroup>
-              <Label htmlFor="travelStyle">Travel Style</Label>
-              <Select
+                 <Select
+                isMulti
                 id="travelStyle"
                 name="travelStyle"
-                value={values.travelStyle}
-                onChange={handleChange}
-                style={{ height: "50px" }}
-              >
-                {options.travelStyles.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </FormGroup>
+                options={options.accommodationTypes}
+                onChange={handlesMultiSelectChangeAccomodation}
+                styles={colourStyles}
+              />
+            </FormBlockGroup>
+            <FormBlockGroup>
+              <Label htmlFor="travelStyle">Travel Style</Label>
+              <Select
+                isMulti
+                id="travelStyle"
+                name="travelStyle"
+                options={options.travelStyles}
+                onChange={handleChangeMultiTravelStyles}
+                styles={colourStyles}
+              />
+            </FormBlockGroup>
           </FormRow>
-
-          <Label htmlFor="transportationType">
+          <FormRow>
+            <FormBlockGroup>
+            <Label htmlFor="transportationType">
             Transportation Type
             <p
               style={{
@@ -503,14 +645,30 @@ const Forms = () => {
               (e.g. car, train, bus, etc.)
             </p>
           </Label>
-          <Input
-            type="text"
-            id="transportationType"
-            name="transportationType"
-            value={values.transportationType}
-            onChange={handleChange}
-            required
-          />
+                <Select
+                 isMulti
+                  id="transportatioinTypes"
+                  name="transportatioinTypes"
+                  options={options.transportatioinTypes}
+                  onChange={handleChangeTransportTypes}
+                  styles={colourStyles}
+                />
+            </FormBlockGroup>
+            <FormBlockGroup style={{marginTop:"20px"}}>
+                <Label htmlFor="travelStyle">Travel Parties</Label>
+              <Select
+                isMulti
+                id="travelParties"
+                name="travelParties"
+                options={options.travelParties}
+                onChange={handleChangeTravelParties}
+                styles={colourStyles}
+              />
+            </FormBlockGroup>
+
+          </FormRow>
+
+          
 
           <Label htmlFor="activityType">
             Activity Type
@@ -525,19 +683,15 @@ const Forms = () => {
               (select multiple options)
             </p>
           </Label>
-          <Select
-            id="activityType"
-            name="activityType"
-            multiple
-            value={values.activityType}
-            onChange={handleMultiSelectChange}
-          >
-            {options.activityTypes.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </Select>
+              <Select
+                isMulti
+                id="activityType"
+                name="activityType"
+                options={options.activityTypes}
+                onChange={handleChangeMultiActivity}
+                styles={colourStyles}
+              />
+    
           <Label htmlFor="cuisineType">Cuisine Type</Label>
           <CuisineTypesContainer>
             {options.cuisineTypes.map((cuisineType) => (

@@ -120,7 +120,7 @@ export const Label = styled.label`
   font-weight: bold;
   font-weight: 600;
   color: #000fs0;
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 0.4rem;
 `;
 
@@ -129,8 +129,8 @@ export const Input = styled.input`
   border: 1px solid #ccc;
   font-size: 1rem;
   color: #000;
-  height: 35px;
-  width: calc(100% - 2rem);
+  height: 18px;
+  width: calc(100% - 5rem);
   padding: 0.6rem 0.6rem;
   transition: border-color 0.3s ease-in-out;
 
@@ -225,6 +225,14 @@ export const ResponseText = styled.div`
 
 export const FormGroup = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+export const FormBlockGroup = styled.div`
+  display: block;
   flex-direction: row;
   align-items: flex-start;
   flex-wrap: wrap;

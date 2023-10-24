@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import html2pdf from "html2pdf.js";
-import logo from "../images/logo.svg";
+import logo from "../images/banner.png";
 import Select,{StylesConfig} from "react-select";
 import {
   ActionButton,
@@ -239,7 +239,7 @@ const defaultValues = {
   travelParties:"",
   fromDate:"",
   toDate:"",
-  currency:""
+  currency:"USD"
 };
 
 const Forms = () => {
@@ -460,15 +460,23 @@ const Forms = () => {
   };
 
   const colourStyles: StylesConfig = {
-  control: (styles) => ({ ...styles,borderRadius:"10px",margin:"5px",flex:1 }),}
+  control: (styles) => ({ ...styles,borderRadius:"5px",margin:"5px",flex:1}),}
   return (
     <Panel>
+      <div >
+      <img src={logo}  width={150} height={70}/>
+
+      </div>
+      
       {response ? (
         <ResponseContainer>
           <ResponseData response={response} />
         </ResponseContainer>
       ) : (
+        <div>
         <FormContainer onSubmit={handleSubmit}>
+          <FormRow>
+           <FormBlockGroup>
           <Label htmlFor="fromCountry">From Country(Optional)</Label>
           <Input
             type="text"
@@ -478,6 +486,8 @@ const Forms = () => {
             value={values.fromCountry}
             onChange={handleChange}
           />
+          </FormBlockGroup>
+         <FormBlockGroup>
           <Label htmlFor="destinationCountry">Destination Country</Label>
           <Input
             type="text"
@@ -488,6 +498,43 @@ const Forms = () => {
             onChange={handleChange}
             required
           />
+
+           </FormBlockGroup>
+                  <FormBlockGroup>
+              <Label htmlFor="tripDuration">
+                From Date
+              </Label>
+              <Input
+                placeholder="DD/MM/YYYY"
+                type="text"
+                id="fromDate"
+                name="fromDate"
+                onFocus={(e) => (e.target.type = "date")}
+               onBlur={(e) => (e.target.type = "text")}
+                value={values.fromDate}
+                onChange={handleChange}
+                required
+              />
+              </FormBlockGroup>
+                <FormBlockGroup>
+                <Label htmlFor="tripDuration">
+                To Date
+           
+              </Label>
+              <Input
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => (e.target.type = "text")}
+              placeholder="DD/MM/YYYY"
+                type="text"
+                id="toDate"
+                name="toDate"
+                value={values.toDate}
+                onChange={handleChange}
+                required
+              />
+              </FormBlockGroup>
+
+          </FormRow>
           <TopLocationContainer>
             <Label htmlFor="topDestinations">🔥Top Destionations:</Label>
             {topLocations.map((location) => (
@@ -500,22 +547,16 @@ const Forms = () => {
             ))}
           </TopLocationContainer>
           <FormRow>
+            
             <FormBlockGroup>
+            
               <Label htmlFor="budget">
                 Budget
-                <p
-                  style={{
-                    display: "inline-block",
-                    color: "#666",
-                    fontSize: "16px",
-                  }}
-                >
-                  (with currency)
-                </p>
+            
               </Label>
-              <div style={{display:"flex"}}>
-              <Input
-                style={{marginTop:"5px",flex:1}}
+                <div style={{display:"flex",justifyContent:"flex-start"}}>
+                   <Input
+                style={{marginTop:"5px",flex:2}}
                 type="text"
                 placeholder="e.g. $1000 USD, 1000 EUR, etc."
                 id="budget"
@@ -523,90 +564,20 @@ const Forms = () => {
                 value={values.budget}
                 onChange={handleChange}
                 required
-              /><Select
+              />
+              <Select
                 id="currencies"
                 name="currencies"
+                defaultInputValue="USD"
                 options={options.currencies}
                 onChange={handleChangeCurrencies}
                 styles={colourStyles}
+                
               />
               </div>
-            </FormBlockGroup>
-            <FormGroup>
-              <FormBlockGroup style={{flex:1,marginLeft:"10px"}}>
-              <Label htmlFor="tripDuration">
-                From Date
-                <p
-                  style={{
-                    display: "inline-block",
-                    color: "#666",
-                    fontSize: "16px",
-                  }}
-                >
-                </p>
-              </Label>
-              <Input
-              placeholder="DD/MM/YYYY"
-               style={{marginTop:"10px"}}
-                type="text"
-                id="fromDate"
-                name="fromDate"
-                onFocus={(e) => (e.target.type = "date")}
-               onBlur={(e) => (e.target.type = "text")}
-                value={values.fromDate}
-                onChange={handleChange}
-                required
-              />
+             
               </FormBlockGroup>
-              <FormBlockGroup style={{flex:1}}>
-                <Label htmlFor="tripDuration">
-                To Date
-                <p
-                  style={{
-                    display: "inline-block",
-                    color: "#666",
-                    fontSize: "16px",
-                  }}
-                >
-                </p>
-              </Label>
-              <Input
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => (e.target.type = "text")}
-              placeholder="DD/MM/YYYY"
-               style={{marginTop:"10px"}}
-                type="text"
-                id="toDate"
-                name="toDate"
-                value={values.toDate}
-                onChange={handleChange}
-                required
-              />
-              </FormBlockGroup>
-            </FormGroup>
-          </FormRow>
-          <Label htmlFor="interests">Interests</Label>
-          <InterestsContainerNew>
-            {options.interestsNew.map((interest, index) => (
-              <InterestItemNew
-                key={index}
-                className={
-                  selectedInterests.includes(interest.name) ? "selected" : ""
-                }
-                onClick={() => {
-                  handleInterestClick(interest.name);
-                }}
-                value={interest}
-              >
-                <InterestEmoji aria-label="emoji">
-                  {interest.emoji}
-                </InterestEmoji>
-                <InterestName>{interest.name}</InterestName>
-              </InterestItemNew>
-            ))}
-          </InterestsContainerNew>
-
-          <FormRow>
+            
             <FormBlockGroup>
               <Label htmlFor="accommodationType">Accommodation</Label>
                  <Select
@@ -629,21 +600,33 @@ const Forms = () => {
                 styles={colourStyles}
               />
             </FormBlockGroup>
+        
           </FormRow>
+          <Label style={{marginTop:"10px"}} htmlFor="interests">Interests</Label>
+          <InterestsContainerNew>
+            {options.interestsNew.map((interest, index) => (
+              <InterestItemNew
+                key={index}
+                className={
+                  selectedInterests.includes(interest.name) ? "selected" : ""
+                }
+                onClick={() => {
+                  handleInterestClick(interest.name);
+                }}
+                value={interest}
+              >
+                <InterestEmoji aria-label="emoji">
+                  {interest.emoji}
+                </InterestEmoji>
+                <InterestName>{interest.name}</InterestName>
+              </InterestItemNew>
+            ))}
+          </InterestsContainerNew>
           <FormRow>
             <FormBlockGroup>
             <Label htmlFor="transportationType">
             Transportation Type
-            <p
-              style={{
-                display: "inline-block",
-                fontSize: "16px",
-
-                color: "#666",
-              }}
-            >
-              (e.g. car, train, bus, etc.)
-            </p>
+         
           </Label>
                 <Select
                  isMulti
@@ -654,7 +637,7 @@ const Forms = () => {
                   styles={colourStyles}
                 />
             </FormBlockGroup>
-            <FormBlockGroup style={{marginTop:"20px"}}>
+            <FormBlockGroup >
                 <Label htmlFor="travelStyle">Travel Parties</Label>
               <Select
                 isMulti
@@ -665,23 +648,10 @@ const Forms = () => {
                 styles={colourStyles}
               />
             </FormBlockGroup>
-
-          </FormRow>
-
-          
+            <FormBlockGroup>
 
           <Label htmlFor="activityType">
             Activity Type
-            <p
-              style={{
-                display: "inline-block",
-                fontSize: "16px",
-
-                color: "#666",
-              }}
-            >
-              (select multiple options)
-            </p>
           </Label>
               <Select
                 isMulti
@@ -691,8 +661,9 @@ const Forms = () => {
                 onChange={handleChangeMultiActivity}
                 styles={colourStyles}
               />
-    
-          <Label htmlFor="cuisineType">Cuisine Type</Label>
+            </FormBlockGroup>
+          </FormRow>
+          <Label style={{marginTop:"10px"}} htmlFor="cuisineType">Cuisine Type</Label>
           <CuisineTypesContainer>
             {options.cuisineTypes.map((cuisineType) => (
               <CuisineType
@@ -745,13 +716,16 @@ const Forms = () => {
               ))}
             </LanguageRow>
           </LanguageSelectorContainer>
+        </FormContainer>
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:"-20px"}}>
           <GenerateButton
             loading={loading}
             type="submit"
             disabled={loading}
             className={loading ? "loading" : ""}
           ></GenerateButton>
-        </FormContainer>
+        </div>
+        </div>
       )}
     </Panel>
   );

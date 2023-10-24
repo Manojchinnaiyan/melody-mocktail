@@ -12,6 +12,33 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.videoClass {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.videoTag {
+  width: 100%;
+  height: inherit;
+  object-fit: cover;
+}
+.overLay {
+  background-color: darkgoldenrod;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  opacity: 50%;
+  justify-content: center;
+}
 
 .App-header {
   background-color: white;

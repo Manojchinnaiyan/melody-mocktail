@@ -14,7 +14,6 @@ export const Container = styled.div`
 
   &::-webkit-scrollbar {
     display: none;
-    width: 0px;
     -ms-overflow-style: none;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -88,6 +87,15 @@ export const FormContainer = styled.form`
   flex: 1;
   display: flex;
   flex-direction: column;
+  background: white;
+  margin-top: 10px;
+  padding: 10px 40px;
+  border-radius: 30px;
+  @media (max-width: 1000px) {
+    padding: 0;
+    border-radius: 0;
+    margin-top: 0px;
+  }
 `;
 
 export const Loading = styled.p`
@@ -116,12 +124,14 @@ export const Loading = styled.p`
 `;
 
 export const Label = styled.label`
-  font-size: 1.5rem;
+  font-size: 0.8rem;
   font-weight: bold;
   font-weight: 600;
   color: #000fs0;
-  margin-top: 30px;
   padding: 0.4rem;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const Input = styled.input`
@@ -130,12 +140,18 @@ export const Input = styled.input`
   font-size: 1rem;
   color: #000;
   height: 18px;
-  width: calc(100% - 5rem);
+  margin-top: 10px;
+  width: calc(100% - 2rem);
   padding: 0.6rem 0.6rem;
   transition: border-color 0.3s ease-in-out;
 
   &:focus {
     border-color: #007bff;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    width: calc(100% - 1.7rem);
   }
 `;
 
@@ -155,17 +171,14 @@ export const Select = styled.select`
 `;
 
 export const Button = styled.button`
-  padding: 0.5rem 1rem;
-  width: 100%;
+  padding: 0.5rem 5rem;
   border: none;
   font-size: 1.5rem;
-
   background-color: #ba0f17;
   color: #fff;
   cursor: pointer;
-  border-radius: 0.4rem;
+  border-radius: 30px;
   transition: background-color 0.3s ease-in-out;
-
   &:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -182,8 +195,10 @@ export const FormRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
   margin-top: 20px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const ResponseContainer = styled.div`
@@ -207,7 +222,6 @@ export const ResponseText = styled.div`
   padding: 1rem;
   margin: 2rem;
   @media (max-width: 768px) {
-    width: calc(100% - 2rem);
     font-size: 0.9rem;
   }
   img {
@@ -295,7 +309,7 @@ export const PinButton = styled.div`
   align-items: center;
   justify-content: center;
   padding: 4px 4px;
-  font-size: 20px;
+  font-size: 16px;
   letter-spacing: 0px;
   color: #000;
   border: none;
@@ -353,7 +367,7 @@ export const InterestsContainerNew = styled.div`
 
 export const InterestItemNew = styled.div`
   display: flex;
-  font-size: 20px;
+  font-size: 16px;
   align-items: center;
   padding: 4px;
   margin-right: 4px;
@@ -390,24 +404,17 @@ export const Panel = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background-color: #fff;
   top: 0;
   right: 0;
   overflow-y: auto;
-
-  @media screen and (max-width: 1320px) {
-    flex-basis: calc(40% - 2.2rem);
-    width: calc(40% - 2.2rem);
-    position: relative;
-  }
+  position: relative;
 
   @media (max-width: 768px) {
-    width: calc(100% - 2rem);
     margin: 0 auto;
+    padding: 0;
   }
 
   @media (max-height: 500px) {
-    width: calc(100% - 2rem);
     margin: 0 auto;
     overflow-y: scroll;
     position: relative;
@@ -427,7 +434,7 @@ export const CuisineType = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 16px;
   padding: 0.4rem;
   margin-bottom: 5px;
   margin-right: 5px;

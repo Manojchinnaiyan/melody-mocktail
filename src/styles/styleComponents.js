@@ -92,7 +92,7 @@ export const FormContainer = styled.form`
   padding: 10px 40px;
   border-radius: 30px;
   @media (max-width: 1000px) {
-    padding: 0;
+    padding: 20px;
     border-radius: 0;
     margin-top: 0px;
   }
@@ -144,7 +144,7 @@ export const Input = styled.input`
   width: calc(100% - 2rem);
   padding: 0.6rem 0.6rem;
   transition: border-color 0.3s ease-in-out;
-
+  background-color: white;
   &:focus {
     border-color: #007bff;
   }
@@ -203,9 +203,17 @@ export const FormRow = styled.div`
 
 export const ResponseContainer = styled.div`
   display: flex;
+  width: 1000px;
+  border-radius: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  margin-top: 20px;
+  opacity: 90%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const ResponseTitle = styled.h2`
@@ -273,8 +281,10 @@ export const TopLocationContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-
   margin-top: 1rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const LanguageOption = styled.div`
@@ -400,6 +410,7 @@ export const InterestEmoji = styled.span`
 export const Panel = styled.div`
   display: flex;
   flex-basis: 30%;
+  z-index: 100;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -436,7 +447,7 @@ export const CuisineType = styled.div`
   cursor: pointer;
   font-size: 16px;
   padding: 0.4rem;
-  margin-bottom: 5px;
+  margin-bottom: 30px;
   margin-right: 5px;
   border-radius: 0.4rem;
   border: 1px solid transparent;

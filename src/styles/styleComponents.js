@@ -411,6 +411,7 @@ export const Panel = styled.div`
   display: flex;
   flex-basis: 30%;
   z-index: 100;
+  opacity: 95%;
   flex-direction: column;
   align-items: center;
   justify-content: center;

@@ -93,7 +93,7 @@ export const FormContainer = styled.form`
   border-radius: 30px;
   @media (max-width: 1000px) {
     padding: 20px;
-    border-radius: 0;
+    border-radius: 2rem;
     margin-top: 0px;
   }
 `;

@@ -23,9 +23,9 @@ input:-webkit-autofill {
   top: 0;
   left: 0;
   z-index: 0;
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     display: none;
-  }
+  } */
 }
 
 .videoTag {
@@ -33,7 +33,7 @@ input:-webkit-autofill {
   height: inherit;
   object-fit: cover;
 }
-.overLay {
+/* .overLay {
   background-color: #a5a094;
   position: absolute;
   z-index: 0;
@@ -41,13 +41,12 @@ input:-webkit-autofill {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   opacity: 50%;
   justify-content: center;
   @media (max-width: 768px) {
     display: none;
   }
-}
+} */
 
 .App-header {
   background-color: white;
